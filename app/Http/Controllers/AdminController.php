@@ -46,7 +46,7 @@ class AdminController extends Controller
         $stories = Story::latest()->get();
         $modules = LearningModule::all();
         $masterNarrative = MasterNarrative::getActive();
-        $supabaseUrl = env('SUPABASE_URL', 'https://jeajmpnrcducsvlxzmyi.supabase.co');
+        $supabaseUrl = env('SUPABASE_URL', '');
 
         return view('admin.dashboard', compact('stories', 'modules', 'masterNarrative', 'supabaseUrl'));
     }
