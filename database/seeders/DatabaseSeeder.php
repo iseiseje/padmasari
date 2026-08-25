@@ -17,6 +17,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        User::updateOrCreate(
+            ['email' => 'admin@padmasari.ai'],
+            [
+                'name' => 'Admin Padmasari AI',
+                'password' => \Illuminate\Support\Facades\Hash::make('admin123'),
+                'email_verified_at' => now(),
+            ]
+        );
+
         User::factory()->create([
             'name' => 'Sanjaya Scholar',
             'email' => 'scholar@padmasari.ai',

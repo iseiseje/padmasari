@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Story;
 use App\Models\LearningModule;
 use App\Models\MasterNarrative;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
 class AdminController extends Controller
@@ -25,15 +28,34 @@ class AdminController extends Controller
             'password' => 'required|string',
         ]);
 
-        $adminEmail = config('services.admin.email', env('ADMIN_EMAIL', 'admin@padmasari.ai'));
-        $adminPassword = config('services.admin.password', env('ADMIN_PASSWORD', 'admin123'));
+        $email = strtolower(trim($request->input('email')));
+        $password = trim($request->input('password'));
 
-        $inputEmail = strtolower(trim($request->input('email')));
-        $inputPassword = trim($request->input('password'));
+        // Check user in database (Supabase / local DB)
+        $user = User::where('email', $email)->first();
 
-        if ($inputEmail === strtolower(trim($adminEmail)) && $inputPassword === trim($adminPassword)) {
+        // Self-healing: If default admin@padmasari.ai account is missing from DB, auto-create it
+        if (!$user && $email === 'admin@padmasari.ai') {
+            $user = User::create([
+                'name' => 'Admin Padmasari AI',
+                'email' => 'admin@padmasari.ai',
+                'password' => Hash::make('admin123'),
+                'email_verified_at' => now(),
+            ]);
+        }
+
+        if ($user && Hash::check($password, $user->password)) {
+            Auth::login($user);
             Session::put('is_admin', true);
-            Session::put('admin_email', $adminEmail);
+            Session::put('admin_email', $user->email);
+            return redirect()->route('admin.dashboard')->with('success', 'Selamat datang kembali, Admin Padmasari AI!');
+        }
+
+        // Fallback Auth attempt
+        if (Auth::attempt(['email' => $email, 'password' => $password])) {
+            $authUser = Auth::user();
+            Session::put('is_admin', true);
+            Session::put('admin_email', $authUser->email);
             return redirect()->route('admin.dashboard')->with('success', 'Selamat datang kembali, Admin Padmasari AI!');
         }
 
