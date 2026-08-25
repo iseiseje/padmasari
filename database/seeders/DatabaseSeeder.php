@@ -26,10 +26,14 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        User::factory()->create([
-            'name' => 'Sanjaya Scholar',
-            'email' => 'scholar@padmasari.ai',
-        ]);
+        User::updateOrCreate(
+            ['email' => 'scholar@padmasari.ai'],
+            [
+                'name' => 'Sanjaya Scholar',
+                'password' => \Illuminate\Support\Facades\Hash::make('scholar123'),
+                'email_verified_at' => now(),
+            ]
+        );
 
         // Seed Learning Modules
         LearningModule::create([
