@@ -173,7 +173,7 @@ class StoryGeneratorController extends Controller
             'moral_lesson' => $moralLesson,
             'content' => $generatedContent,
             'reads_count' => 1,
-            'is_featured' => false,
+            'is_featured' => $request->has('is_featured'),
         ]);
 
 

@@ -132,55 +132,59 @@
     <!-- Management Forms Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
         
-        <!-- Create New Story Form -->
+        <!-- AI Story Generator Form (Engine Master Narrative) -->
         <div class="lg:col-span-6 bg-white p-6 sm:p-8 rounded-2xl border border-gray-200 shadow-sm">
-            <h3 class="text-lg font-bold font-serif text-gray-900 mb-6 flex items-center gap-2 border-b border-gray-100 pb-3">
-                <i class="fa-solid fa-plus-circle text-padma-primary"></i> Publikasi Cerita AI Baru (Admin)
-            </h3>
+            <div class="border-b border-gray-100 pb-3 mb-5">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-lg font-bold font-serif text-gray-900 flex items-center gap-2">
+                        <i class="fa-solid fa-wand-magic-sparkles text-amber-600"></i> Generasi Cerita AI Baru (Admin Engine)
+                    </h3>
+                    <span class="px-2 py-0.5 bg-amber-50 text-amber-800 text-[10px] font-bold rounded border border-amber-200">AI Automatic</span>
+                </div>
+                <p class="text-xs text-gray-500 mt-1">Cerita akan <strong>dihasilkan secara otomatis oleh AI</strong> berdasarkan Naskah Master &amp; Aturan Filologi yang dikunci di atas.</p>
+            </div>
 
-            <form action="{{ route('admin.stories.store') }}" method="POST" class="space-y-4">
+            <form action="{{ route('story-generator.generate') }}" method="POST" class="space-y-4">
                 @csrf
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Judul Cerita</label>
-                    <input type="text" name="title" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:border-padma-primary outline-none" placeholder="Contoh: Petuah Resi Jayagiri di Tepian Citarum" required>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">
+                        Fokus Adegan / Prompt Cerita AI <span class="text-red-500">*</span>
+                    </label>
+                    <textarea name="prompt" rows="3" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs sm:text-sm focus:border-padma-primary outline-none resize-y" placeholder="Contoh: Siasat peretasan Malaikat Digital saat apartemen Urumaskara dikepung eksekutif megakorporat..." required></textarea>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Tema Sastra</label>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Tema / Genre Adaptasi</label>
                         <select name="theme" class="w-full px-3 py-2 rounded-xl border border-gray-200 text-xs font-medium text-gray-700 bg-white">
-                            <option value="Wawacan & Legend">Wawacan & Legenda</option>
-                            <option value="Sejarah & Filologi">Sejarah Kuno</option>
-                            <option value="Hikmah & Moral">Hikmah & Moral</option>
+                            <option value="Cyberpunk (Distopia Megakorporat Neo-Nusantara)">Cyberpunk (Neo-Nusantara)</option>
+                            <option value="Sci-Fi Android (Era Sintetis)">Sci-Fi Android</option>
+                            <option value="Steampunk (Revolusi Industri Mekanik)">Steampunk (Mekanik)</option>
+                            <option value="Post-Apocalyptic (Dunia Pasca-Kiamat)">Post-Apocalyptic (Pasca-Kiamat)</option>
                         </select>
                     </div>
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Target Pembaca</label>
                         <select name="target_audience" class="w-full px-3 py-2 rounded-xl border border-gray-200 text-xs font-medium text-gray-700 bg-white">
-                            <option value="Remaja & Mahasiswa">Remaja & Mahasiswa</option>
+                            <option value="Remaja & Mahasiswa">Remaja &amp; Mahasiswa</option>
                             <option value="Anak-Anak">Anak-Anak</option>
-                            <option value="Umum & Peneliti">Umum & Peneliti</option>
+                            <option value="Umum & Peneliti">Umum &amp; Peneliti</option>
                         </select>
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Pesan Moral</label>
-                    <input type="text" name="moral_lesson" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:border-padma-primary outline-none" placeholder="Pesan filosofis cerita...">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Pesan Moral / Penekanan Filosofis</label>
+                    <input type="text" name="moral_lesson" value="Kecerdikan dan ketulusan niat mengalahkan keserakahan." class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs sm:text-sm focus:border-padma-primary outline-none" placeholder="Pesan filosofis cerita...">
                 </div>
 
-                <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Isi Cerita Lengkap</label>
-                    <textarea name="content" rows="5" class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:border-padma-primary outline-none resize-none" placeholder="Tuliskan naskah cerita lengkap di sini..." required></textarea>
-                </div>
-
-                <div class="flex items-center gap-2">
+                <div class="flex items-center gap-2 pt-1">
                     <input type="checkbox" name="is_featured" value="1" id="is_featured" class="rounded text-padma-primary">
                     <label for="is_featured" class="text-xs font-semibold text-gray-700">Tampilkan di Beranda (Featured)</label>
                 </div>
 
-                <button type="submit" class="w-full py-3 bg-padma-primary hover:bg-indigo-900 text-white font-bold text-xs rounded-xl shadow transition-colors flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-paper-plane"></i> Publikasikan Cerita
+                <button type="submit" class="w-full py-3 bg-slate-950 hover:bg-slate-900 text-white font-bold text-xs rounded-xl shadow-sm transition-all flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i> Generate &amp; Publikasikan Cerita AI
                 </button>
             </form>
         </div>
