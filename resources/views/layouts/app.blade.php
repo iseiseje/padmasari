@@ -6,6 +6,43 @@
     <title>@yield('title', 'Padmasari AI - Platform Pembelajaran Literatur & Manuskrip Kuno')</title>
     <meta name="description" content="Padmasari AI - Platform kecerdasan buatan terdepan untuk pelestarian, analisis, dan penyajian kembali manuskrip serta warisan literatur kuno Indonesia.">
     
+    <!-- Tailwind CSS CDN Fallback for Production / VPS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'padma-primary': '#1e3a8a',
+                        'padma-secondary': '#944925',
+                        'padma-accent': '#d97706',
+                        'padma-bg': '#f8fafc',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.04);
+        }
+    </style>
+
     <!-- Vite Standard Asset Bundling -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
