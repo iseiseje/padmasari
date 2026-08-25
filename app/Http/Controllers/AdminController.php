@@ -25,10 +25,13 @@ class AdminController extends Controller
             'password' => 'required|string',
         ]);
 
-        $adminEmail = env('ADMIN_EMAIL', 'admin@padmasari.ai');
-        $adminPassword = env('ADMIN_PASSWORD', 'admin123');
+        $adminEmail = config('services.admin.email', env('ADMIN_EMAIL', 'admin@padmasari.ai'));
+        $adminPassword = config('services.admin.password', env('ADMIN_PASSWORD', 'admin123'));
 
-        if ($request->input('email') === $adminEmail && $request->input('password') === $adminPassword) {
+        $inputEmail = strtolower(trim($request->input('email')));
+        $inputPassword = trim($request->input('password'));
+
+        if ($inputEmail === strtolower(trim($adminEmail)) && $inputPassword === trim($adminPassword)) {
             Session::put('is_admin', true);
             Session::put('admin_email', $adminEmail);
             return redirect()->route('admin.dashboard')->with('success', 'Selamat datang kembali, Admin Padmasari AI!');

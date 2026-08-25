@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'admin' => [
+        'email' => env('ADMIN_EMAIL', 'admin@padmasari.ai'),
+        'password' => env('ADMIN_PASSWORD', 'admin123'),
+    ],
+
 ];
