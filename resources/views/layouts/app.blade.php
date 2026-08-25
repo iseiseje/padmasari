@@ -90,10 +90,6 @@
                     <a href="{{ route('admin.dashboard') }}" class="tactile-btn px-4 py-2.5 text-xs font-bold text-slate-900 bg-white hover:bg-slate-100 border border-slate-200 rounded-full shadow-xs transition-all flex items-center gap-2">
                         <i class="fa-solid fa-user-shield text-slate-600" aria-hidden="true"></i> Portal Admin
                     </a>
-                    <a href="{{ route('story-generator.index') }}" class="tactile-btn hidden sm:flex px-5 py-2.5 text-xs font-bold text-white bg-slate-950 hover:bg-slate-900 rounded-full shadow-sm transition-all items-center gap-2">
-                        <span>Mulai Generasi</span>
-                        <i class="fa-solid fa-arrow-right text-[10px] text-amber-400" aria-hidden="true"></i>
-                    </a>
                     <!-- Mobile Hamburger Button -->
                     <button @click="mobileMenuOpen = !mobileMenuOpen" type="button" class="md:hidden p-2 rounded-xl text-slate-700 hover:bg-slate-100 focus:outline-none" aria-label="Toggle Navigation">
                         <i class="fa-solid" :class="mobileMenuOpen ? 'fa-xmark' : 'fa-bars'"></i>
