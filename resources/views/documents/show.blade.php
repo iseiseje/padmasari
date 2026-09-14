@@ -57,33 +57,33 @@ class="min-h-screen transition-colors duration-300"
             <div class="flex items-center gap-2">
                 <span class="px-3 py-1 text-xs font-bold font-display rounded-full uppercase tracking-wider"
                       :class="{
-                        'bg-amber-500/20 text-amber-300 border border-amber-500/40': '{{ $document['type'] }}' === 'novel',
-                        'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40': '{{ $document['type'] }}' === 'naskah',
-                        'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40': '{{ $document['type'] }}' === 'drama'
+                        'bg-amber-500/20 text-amber-600 dark:text-amber-300 border border-amber-500/40': '{{ $document['type'] }}' === 'novel',
+                        'bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-500/40': '{{ $document['type'] }}' === 'naskah',
+                        'bg-cyan-500/20 text-cyan-700 dark:text-cyan-300 border border-cyan-500/40': '{{ $document['type'] }}' === 'drama'
                       }">
                     {{ $document['title'] }}
                 </span>
-                <span class="hidden md:inline-block text-xs text-slate-400 font-mono" x-text="`${readingProgress}% dibaca`"></span>
+                <span class="hidden md:inline-block text-xs font-mono font-semibold opacity-75" x-text="`${readingProgress}% dibaca`"></span>
             </div>
 
             <!-- Right Reader Customizer Toolkit -->
             <div class="flex items-center gap-2 sm:gap-4">
                 
                 <!-- Font Family Switcher -->
-                <div class="flex items-center bg-black/20 p-1 rounded-xl border border-white/10 text-xs font-bold">
-                    <button @click="setFontFamily('font-serif')" class="px-2.5 py-1 rounded-lg transition-all" :class="fontFamily === 'font-serif' ? 'bg-amber-500 text-slate-950 font-serif' : 'text-slate-400'">Serif</button>
-                    <button @click="setFontFamily('font-sans')" class="px-2.5 py-1 rounded-lg transition-all" :class="fontFamily === 'font-sans' ? 'bg-amber-500 text-slate-950 font-sans' : 'text-slate-400'">Sans</button>
+                <div class="flex items-center bg-black/10 dark:bg-black/30 p-1 rounded-xl border border-slate-300 dark:border-white/10 text-xs font-bold">
+                    <button @click="setFontFamily('font-serif')" class="px-2.5 py-1 rounded-lg transition-all" :class="fontFamily === 'font-serif' ? 'bg-amber-500 text-slate-950 font-serif' : 'opacity-70 hover:opacity-100'">Serif</button>
+                    <button @click="setFontFamily('font-sans')" class="px-2.5 py-1 rounded-lg transition-all" :class="fontFamily === 'font-sans' ? 'bg-amber-500 text-slate-950 font-sans' : 'opacity-70 hover:opacity-100'">Sans</button>
                 </div>
 
                 <!-- Font Size Switcher -->
-                <div class="flex items-center bg-black/20 p-1 rounded-xl border border-white/10 text-xs font-bold">
-                    <button @click="setFontSize('text-sm')" class="px-2 py-1 transition-all" :class="fontSize === 'text-sm' ? 'text-amber-400 font-black' : 'text-slate-400'">A-</button>
-                    <button @click="setFontSize('text-base')" class="px-2 py-1 transition-all" :class="fontSize === 'text-base' ? 'text-amber-400 font-black' : 'text-slate-400'">A</button>
-                    <button @click="setFontSize('text-xl')" class="px-2 py-1 transition-all" :class="fontSize === 'text-xl' ? 'text-amber-400 font-black' : 'text-slate-400'">A+</button>
+                <div class="flex items-center bg-black/10 dark:bg-black/30 p-1 rounded-xl border border-slate-300 dark:border-white/10 text-xs font-bold">
+                    <button @click="setFontSize('text-sm')" class="px-2 py-1 transition-all" :class="fontSize === 'text-sm' ? 'text-amber-600 dark:text-amber-400 font-black' : 'opacity-70 hover:opacity-100'">A-</button>
+                    <button @click="setFontSize('text-base')" class="px-2 py-1 transition-all" :class="fontSize === 'text-base' ? 'text-amber-600 dark:text-amber-400 font-black' : 'opacity-70 hover:opacity-100'">A</button>
+                    <button @click="setFontSize('text-xl')" class="px-2 py-1 transition-all" :class="fontSize === 'text-xl' ? 'text-amber-600 dark:text-amber-400 font-black' : 'opacity-70 hover:opacity-100'">A+</button>
                 </div>
 
                 <!-- Color Theme Switcher -->
-                <div class="flex items-center bg-black/20 p-1 rounded-xl border border-white/10 text-xs">
+                <div class="flex items-center bg-black/10 dark:bg-black/30 p-1 rounded-xl border border-slate-300 dark:border-white/10 text-xs">
                     <button @click="setThemeMode('light')" class="w-6 h-6 rounded-lg bg-white border border-slate-300 flex items-center justify-center text-slate-900 transition-transform" :class="themeMode === 'light' ? 'scale-110 ring-2 ring-amber-500' : ''" title="Tema Terang"></button>
                     <button @click="setThemeMode('sepia')" class="w-6 h-6 rounded-lg bg-[#f4efe0] border border-[#d6cba6] flex items-center justify-center text-[#4a3928] ml-1 transition-transform" :class="themeMode === 'sepia' ? 'scale-110 ring-2 ring-amber-500' : ''" title="Tema Sepia"></button>
                     <button @click="setThemeMode('dark')" class="w-6 h-6 rounded-lg bg-slate-950 border border-slate-700 flex items-center justify-center text-white ml-1 transition-transform" :class="themeMode === 'dark' ? 'scale-110 ring-2 ring-amber-500' : ''" title="Tema Gelap"></button>
@@ -112,7 +112,7 @@ class="min-h-screen transition-colors duration-300"
                         <span class="text-xs font-bold uppercase tracking-widest flex items-center gap-2">
                             <i class="fa-solid fa-list-ul text-amber-500"></i> Navigasi Bab
                         </span>
-                        <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 font-bold">
+                        <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 font-bold">
                             {{ count($document['sections']) }} Bagian
                         </span>
                     </div>
@@ -136,14 +136,14 @@ class="min-h-screen transition-colors duration-300"
                     <!-- Character Filter Box (If Characters Present) -->
                     @if(count($document['characters']) > 0)
                         <div class="pt-6 border-t mt-6" :class="{ 'border-slate-800': themeMode === 'dark', 'border-slate-200': themeMode !== 'dark' }">
-                            <div class="text-[11px] font-bold uppercase tracking-widest mb-3 flex items-center gap-2 text-amber-400">
+                            <div class="text-[11px] font-bold uppercase tracking-widest mb-3 flex items-center gap-2 text-amber-600 dark:text-amber-400">
                                 <i class="fa-solid fa-users text-amber-500"></i> Sorot Dialog Tokoh
                             </div>
                             <div class="flex flex-wrap gap-1.5">
                                 @foreach($document['characters'] as $char)
                                     <button @click="toggleCharacterFilter('{{ $char }}')" 
                                             class="px-2.5 py-1 text-[10px] font-bold font-mono rounded-lg border transition-all"
-                                            :class="activeCharFilter === '{{ $char }}' ? 'bg-amber-500 text-slate-950 border-amber-400 shadow-sm' : 'bg-black/20 text-slate-400 border-white/10 hover:text-white'">
+                                            :class="activeCharFilter === '{{ $char }}' ? 'bg-amber-500 text-slate-950 border-amber-400 shadow-sm font-black' : 'bg-slate-200/80 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border-slate-300 dark:border-slate-700 hover:bg-slate-300 dark:hover:bg-slate-700'">
                                         {{ $char }}
                                     </button>
                                 @endforeach
@@ -166,10 +166,10 @@ class="min-h-screen transition-colors duration-300"
                     <!-- Document Header -->
                     <header class="mb-10 pb-8 border-b" :class="{ 'border-slate-800': themeMode === 'dark', 'border-slate-200': themeMode !== 'dark' }">
                         <div class="flex flex-wrap items-center gap-3 mb-4">
-                            <span class="px-3 py-1 bg-amber-500/20 text-amber-400 text-xs font-bold rounded-full uppercase tracking-wider border border-amber-500/30">
+                            <span class="px-3 py-1 bg-amber-100 dark:bg-amber-950/60 text-amber-900 dark:text-amber-300 text-xs font-bold rounded-full uppercase tracking-wider border border-amber-300 dark:border-amber-700">
                                 {{ $document['theme'] ?: 'Kedaulatan & Emansipasi Perempuan' }}
                             </span>
-                            <span class="text-xs text-slate-400 font-mono ml-auto">
+                            <span class="text-xs opacity-75 font-mono ml-auto">
                                 Dokumen Resmi Statis &bull; resources/dokumen/
                             </span>
                         </div>

@@ -143,38 +143,38 @@ class DocumentService
             $secHtml = '<div id="' . e($sec['id']) . '" class="doc-section mb-12 scroll-mt-24">';
             
             if ($sec['type'] === 'chapter') {
-                $secHtml .= '<h3 class="text-2xl sm:text-3xl font-extrabold font-serif text-slate-900 dark:text-slate-100 border-b-2 border-amber-500/40 pb-3 mb-6 flex items-center gap-3"><i class="fa-solid fa-feather-pointed text-amber-600 text-lg"></i> ' . e($sec['title']) . '</h3>';
+                $secHtml .= '<h3 class="text-2xl sm:text-3xl font-extrabold font-serif text-slate-900 dark:text-slate-100 border-b-2 border-amber-500/40 pb-3 mb-6 flex items-center gap-3"><i class="fa-solid fa-feather-pointed text-amber-600 dark:text-amber-400 text-lg"></i> ' . e($sec['title']) . '</h3>';
             } else {
-                $secHtml .= '<div class="px-4 py-2 bg-slate-900 text-cyan-300 font-mono text-xs font-bold rounded-xl border border-cyan-500/30 uppercase tracking-widest inline-flex items-center gap-2 mb-6 shadow-sm"><i class="fa-solid fa-clapperboard text-cyan-400"></i> ' . e($sec['title']) . '</div>';
+                $secHtml .= '<div class="px-4 py-2 bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-mono text-xs font-bold rounded-xl border border-slate-300 dark:border-slate-700 uppercase tracking-widest inline-flex items-center gap-2 mb-6 shadow-xs"><i class="fa-solid fa-clapperboard text-emerald-700 dark:text-emerald-400"></i> ' . e($sec['title']) . '</div>';
             }
 
             foreach ($sec['paragraphs'] as $pIdx => $pText) {
                 // Character name alone (Dialogue Speaker)
                 if (in_array(trim($pText), $characters)) {
                     $charClass = match(strtoupper(trim($pText))) {
-                        'PADMASARI' => 'text-amber-500 border-amber-500/40 bg-amber-500/10',
-                        'LURAH' => 'text-rose-400 border-rose-500/40 bg-rose-500/10',
-                        default => 'text-cyan-400 border-cyan-500/40 bg-cyan-500/10'
+                        'PADMASARI' => 'text-amber-800 dark:text-amber-300 border-amber-400/60 bg-amber-100/80 dark:bg-amber-950/50',
+                        'LURAH' => 'text-rose-800 dark:text-rose-300 border-rose-400/60 bg-rose-100/80 dark:bg-rose-950/50',
+                        default => 'text-indigo-800 dark:text-indigo-300 border-indigo-300 dark:border-indigo-700 bg-indigo-50 dark:bg-indigo-950/40'
                     };
-                    $secHtml .= '<div class="mt-6 mb-1 font-bold font-mono text-xs tracking-wider uppercase inline-block px-3 py-1 rounded-md border ' . $charClass . ' character-tag" data-character="' . e(trim($pText)) . '">' . e(trim($pText)) . '</div>';
+                    $secHtml .= '<div class="mt-6 mb-2 font-bold font-mono text-xs tracking-wider uppercase inline-block px-3 py-1 rounded-md border ' . $charClass . ' character-tag" data-character="' . e(trim($pText)) . '">' . e(trim($pText)) . '</div>';
                     continue;
                 }
 
                 // Stage Directions (in parentheticals or Ext/Int)
                 if (str_starts_with($pText, '(') && str_ends_with($pText, ')')) {
-                    $secHtml .= '<p class="text-slate-400 italic text-xs sm:text-sm bg-slate-800/40 border-l-2 border-cyan-400/60 p-3 rounded-r-xl my-3 font-sans">' . e($pText) . '</p>';
+                    $secHtml .= '<p class="text-slate-700 dark:text-slate-300 italic text-sm bg-slate-100 dark:bg-slate-800/60 border-l-4 border-slate-400 dark:border-slate-600 p-3.5 rounded-r-xl my-3 font-sans leading-relaxed">' . e($pText) . '</p>';
                     continue;
                 }
 
                 // Moral Lesson or Highlight Quote
                 if (preg_match('/^(Pesan Moral|Petuah|Catatan:)/i', $pText)) {
-                    $secHtml .= '<div class="my-6 p-5 bg-amber-500/10 border-l-4 border-amber-500 rounded-r-2xl text-amber-200 text-sm font-serif italic"><i class="fa-solid fa-quote-left text-amber-400 mr-2"></i>' . e($pText) . '</div>';
+                    $secHtml .= '<div class="my-6 p-5 bg-amber-50 dark:bg-amber-950/40 border-l-4 border-amber-500 rounded-r-2xl text-amber-900 dark:text-amber-200 text-base font-serif italic"><i class="fa-solid fa-quote-left text-amber-600 dark:text-amber-400 mr-2"></i>' . e($pText) . '</div>';
                     continue;
                 }
 
                 // Regular Paragraph
-                $dropCapClass = ($pIdx === 0 && $sec['type'] === 'chapter') ? 'first-letter:text-4xl first-letter:font-extrabold first-letter:font-serif first-letter:text-amber-500 first-letter:float-left first-letter:mr-2 first-letter:leading-none' : '';
-                $secHtml .= '<p class="text-slate-700 dark:text-slate-300 leading-relaxed text-base sm:text-lg mb-4 font-sans ' . $dropCapClass . '">' . nl2br(e($pText)) . '</p>';
+                $dropCapClass = ($pIdx === 0 && $sec['type'] === 'chapter') ? 'first-letter:text-4xl first-letter:font-extrabold first-letter:font-serif first-letter:text-amber-600 dark:first-letter:text-amber-400 first-letter:float-left first-letter:mr-2 first-letter:leading-none' : '';
+                $secHtml .= '<p class="leading-relaxed text-base sm:text-lg mb-5 font-sans opacity-95 ' . $dropCapClass . '">' . nl2br(e($pText)) . '</p>';
             }
 
             $secHtml .= '</div>';
