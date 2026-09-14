@@ -149,7 +149,7 @@ class DocumentService
             $secHtml = '<div id="' . e($sec['id']) . '" class="doc-section mb-12 scroll-mt-24">';
             
             if ($sec['type'] === 'chapter') {
-                $secHtml .= '<h3 class="text-2xl sm:text-3xl font-extrabold font-serif border-b pb-3 mb-6 flex items-center gap-3"><i class="fa-solid fa-feather-pointed text-amber-600 dark:text-amber-400 text-lg"></i> ' . e($sec['title']) . '</h3>';
+                $secHtml .= '<h3 class="text-2xl sm:text-3xl font-extrabold font-serif border-b border-slate-200 dark:border-slate-800 pb-3 mb-6 flex items-center gap-3"><i class="fa-solid fa-feather-pointed text-blue-600 dark:text-blue-400 text-lg"></i> ' . e($sec['title']) . '</h3>';
             } else {
                 $secHtml .= '<div class="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-mono text-xs font-bold rounded-xl border border-slate-300 dark:border-slate-700 uppercase tracking-widest inline-flex items-center gap-2 mb-6 shadow-xs"><i class="fa-solid fa-clapperboard text-emerald-700 dark:text-emerald-400"></i> ' . e($sec['title']) . '</div>';
             }
@@ -158,9 +158,9 @@ class DocumentService
                 // Character name alone (Dialogue Speaker)
                 if (in_array(trim($pText), $characters)) {
                     $charClass = match(strtoupper(trim($pText))) {
-                        'PADMASARI' => 'text-amber-900 dark:text-amber-300 border-amber-400/60 bg-amber-100/80 dark:bg-amber-950/50',
-                        'LURAH' => 'text-rose-900 dark:text-rose-300 border-rose-400/60 bg-rose-100/80 dark:bg-rose-950/50',
-                        default => 'text-indigo-900 dark:text-indigo-300 border-indigo-300 dark:border-indigo-700 bg-indigo-50 dark:bg-indigo-950/40'
+                        'PADMASARI' => 'text-blue-900 dark:text-blue-200 border-blue-300 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/60',
+                        'LURAH' => 'text-rose-900 dark:text-rose-300 border-rose-300 dark:border-rose-800 bg-rose-50 dark:bg-rose-950/50',
+                        default => 'text-slate-900 dark:text-slate-200 border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-800/60'
                     };
                     $secHtml .= '<div class="mt-6 mb-2 font-bold font-mono text-xs tracking-wider uppercase inline-block px-3 py-1 rounded-md border ' . $charClass . ' character-tag" data-character="' . e(trim($pText)) . '">' . e(trim($pText)) . '</div>';
                     continue;
@@ -174,12 +174,12 @@ class DocumentService
 
                 // Moral Lesson or Highlight Quote
                 if (preg_match('/^(Pesan Moral|Petuah|Catatan:)/i', $pText)) {
-                    $secHtml .= '<div class="my-6 p-5 bg-amber-50 dark:bg-amber-950/40 border-l-4 border-amber-500 rounded-r-2xl text-amber-950 dark:text-amber-200 text-base font-serif italic"><i class="fa-solid fa-quote-left text-amber-600 dark:text-amber-400 mr-2"></i>' . e($pText) . '</div>';
+                    $secHtml .= '<div class="my-6 p-5 bg-slate-100 dark:bg-slate-800/80 border-l-4 border-blue-600 dark:border-blue-400 rounded-r-2xl text-slate-900 dark:text-slate-100 text-base font-serif italic"><i class="fa-solid fa-quote-left text-blue-600 dark:text-blue-400 mr-2"></i>' . e($pText) . '</div>';
                     continue;
                 }
 
                 // Regular Paragraph
-                $dropCapClass = ($pIdx === 0 && $sec['type'] === 'chapter') ? 'first-letter:text-4xl first-letter:font-extrabold first-letter:font-serif first-letter:text-amber-600 dark:first-letter:text-amber-400 first-letter:float-left first-letter:mr-2 first-letter:leading-none' : '';
+                $dropCapClass = ($pIdx === 0 && $sec['type'] === 'chapter') ? 'first-letter:text-4xl first-letter:font-extrabold first-letter:font-serif first-letter:text-slate-900 dark:first-letter:text-slate-100 first-letter:float-left first-letter:mr-2.5 first-letter:leading-none' : '';
                 $secHtml .= '<p class="leading-relaxed text-base sm:text-lg mb-5 font-sans ' . $dropCapClass . '">' . nl2br(e($pText)) . '</p>';
             }
 
