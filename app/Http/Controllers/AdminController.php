@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Story;
-use App\Models\LearningModule;
 use App\Models\MasterNarrative;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -69,11 +68,10 @@ class AdminController extends Controller
         }
 
         $stories = Story::latest()->get();
-        $modules = LearningModule::all();
         $masterNarrative = MasterNarrative::getActive();
         $supabaseUrl = env('SUPABASE_URL', '');
 
-        return view('admin.dashboard', compact('stories', 'modules', 'masterNarrative', 'supabaseUrl'));
+        return view('admin.dashboard', compact('stories', 'masterNarrative', 'supabaseUrl'));
     }
 
     public function updateMasterNarrative(Request $request)
@@ -104,8 +102,6 @@ class AdminController extends Controller
         return redirect()->route('admin.dashboard')->with('success', 'Naskah Cerita Master & Parameters berhasil diperbarui!');
     }
 
-
-
     public function storeStory(Request $request)
     {
         if (!Session::get('is_admin')) {
@@ -134,35 +130,6 @@ class AdminController extends Controller
         return redirect()->route('admin.dashboard')->with('success', 'Cerita baru berhasil dipublikasikan oleh Admin!');
     }
 
-    public function storeModule(Request $request)
-    {
-        if (!Session::get('is_admin')) {
-            return redirect()->route('admin.login');
-        }
-
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'category' => 'required|string',
-            'description' => 'required|string',
-            'lesson_count' => 'required|integer|min:1',
-            'duration_minutes' => 'required|integer|min:1',
-            'difficulty' => 'required|string',
-        ]);
-
-        LearningModule::create([
-            'title' => $request->input('title'),
-            'category' => $request->input('category'),
-            'description' => $request->input('description'),
-            'lesson_count' => $request->input('lesson_count'),
-            'duration_minutes' => $request->input('duration_minutes'),
-            'difficulty' => $request->input('difficulty'),
-            'icon' => 'book-open',
-            'progress_percent' => 0,
-        ]);
-
-        return redirect()->route('admin.dashboard')->with('success', 'Modul pembelajaran baru berhasil dibuat!');
-    }
-
     public function destroyStory(Story $story)
     {
         if (!Session::get('is_admin')) {
@@ -171,16 +138,6 @@ class AdminController extends Controller
 
         $story->delete();
         return redirect()->route('admin.dashboard')->with('success', 'Cerita berhasil dihapus.');
-    }
-
-    public function destroyModule(LearningModule $module)
-    {
-        if (!Session::get('is_admin')) {
-            return redirect()->route('admin.login');
-        }
-
-        $module->delete();
-        return redirect()->route('admin.dashboard')->with('success', 'Modul berhasil dihapus.');
     }
 
     public function editStory(Story $story)
@@ -216,44 +173,6 @@ class AdminController extends Controller
         ]);
 
         return redirect()->route('admin.dashboard')->with('success', 'Cerita berhasil diperbarui oleh Admin!');
-    }
-
-    public function editModule(LearningModule $module)
-    {
-        if (!Session::get('is_admin')) {
-            return redirect()->route('admin.login');
-        }
-
-        return view('admin.edit_module', compact('module'));
-    }
-
-    public function updateModule(Request $request, LearningModule $module)
-    {
-        if (!Session::get('is_admin')) {
-            return redirect()->route('admin.login');
-        }
-
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'category' => 'required|string',
-            'description' => 'required|string',
-            'lesson_count' => 'required|integer|min:1',
-            'duration_minutes' => 'required|integer|min:1',
-            'difficulty' => 'required|string',
-            'progress_percent' => 'required|integer|min:0|max:100',
-        ]);
-
-        $module->update([
-            'title' => $request->input('title'),
-            'category' => $request->input('category'),
-            'description' => $request->input('description'),
-            'lesson_count' => $request->input('lesson_count'),
-            'duration_minutes' => $request->input('duration_minutes'),
-            'difficulty' => $request->input('difficulty'),
-            'progress_percent' => $request->input('progress_percent'),
-        ]);
-
-        return redirect()->route('admin.dashboard')->with('success', 'Modul pembelajaran berhasil diperbarui!');
     }
 
     public function logout()

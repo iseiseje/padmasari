@@ -2,22 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Story;
-use App\Models\LearningModule;
-use Illuminate\Http\Request;
+use App\Services\DocumentService;
 
 class HomeController extends Controller
 {
+    protected DocumentService $documentService;
+
+    public function __construct(DocumentService $documentService)
+    {
+        $this->documentService = $documentService;
+    }
+
     public function index()
     {
-        $featuredStories = Story::where('is_featured', true)->latest()->take(3)->get();
-        $totalStories = Story::count();
-        $totalModules = LearningModule::count();
+        $novelDoc = $this->documentService->getDocument('novel');
+        $naskahDoc = $this->documentService->getDocument('naskah');
+        $dramaDoc = $this->documentService->getDocument('drama');
 
         return view('home', compact(
-            'featuredStories',
-            'totalStories',
-            'totalModules'
+            'novelDoc',
+            'naskahDoc',
+            'dramaDoc'
         ));
     }
 }

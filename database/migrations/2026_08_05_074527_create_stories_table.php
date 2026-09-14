@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('prompt')->nullable();
             $table->string('theme')->default('Wawacan & Legend');
+            $table->string('format')->default('novel'); // novel, naskah_cerita, drama
             $table->string('target_audience')->default('General');
             $table->text('moral_lesson')->nullable();
             $table->longText('content');

@@ -97,7 +97,7 @@
 
     <!-- Quick System Stats -->
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
         <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm flex items-center gap-4">
             <div class="w-12 h-12 rounded-xl bg-blue-50 text-padma-primary flex items-center justify-center text-xl font-bold">
                 <i class="fa-solid fa-wand-magic-sparkles"></i>
@@ -105,16 +105,6 @@
             <div>
                 <span class="text-2xl font-extrabold font-serif text-gray-900 block">{{ $stories->count() }}</span>
                 <span class="text-xs font-medium text-gray-500 uppercase tracking-wider">Total Cerita Dipublikasi</span>
-            </div>
-        </div>
-
-        <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm flex items-center gap-4">
-            <div class="w-12 h-12 rounded-xl bg-amber-50 text-padma-secondary flex items-center justify-center text-xl font-bold">
-                <i class="fa-solid fa-graduation-cap"></i>
-            </div>
-            <div>
-                <span class="text-2xl font-extrabold font-serif text-gray-900 block">{{ $modules->count() }}</span>
-                <span class="text-xs font-medium text-gray-500 uppercase tracking-wider">Total Modul Pembelajaran</span>
             </div>
         </div>
 
@@ -130,10 +120,10 @@
     </div>
 
     <!-- Management Forms Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
+    <div class="grid grid-cols-1 gap-8 mb-12">
         
         <!-- AI Story Generator Form (Engine Master Narrative) -->
-        <div class="lg:col-span-6 bg-white p-6 sm:p-8 rounded-2xl border border-gray-200 shadow-sm">
+        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-gray-200 shadow-sm">
             <div class="border-b border-gray-100 pb-3 mb-5">
                 <div class="flex items-center justify-between">
                     <h3 class="text-lg font-bold font-serif text-gray-900 flex items-center gap-2">
@@ -189,63 +179,13 @@
             </form>
         </div>
 
-        <!-- Create New Learning Module Form -->
-        <div class="lg:col-span-6 bg-white p-6 sm:p-8 rounded-2xl border border-gray-200 shadow-sm">
-            <h3 class="text-lg font-bold font-serif text-gray-900 mb-6 flex items-center gap-2 border-b border-gray-100 pb-3">
-                <i class="fa-solid fa-graduation-cap text-padma-secondary"></i> Buat Modul Pembelajaran Baru (Admin)
-            </h3>
-
-            <form action="{{ route('admin.modules.store') }}" method="POST" class="space-y-4">
-                @csrf
-                <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Judul Modul</label>
-                    <input type="text" name="title" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:border-padma-primary outline-none" placeholder="Contoh: Analisis Pupuh Sinom & Asmarandana" required>
-                </div>
-
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Kategori</label>
-                        <input type="text" name="category" class="w-full px-4 py-2 rounded-xl border border-gray-200 text-xs focus:border-padma-primary outline-none" placeholder="Contoh: Sastra Klasik" required>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Tingkat Kesulitan</label>
-                        <select name="difficulty" class="w-full px-3 py-2 rounded-xl border border-gray-200 text-xs font-medium text-gray-700 bg-white">
-                            <option value="Pemula">Pemula</option>
-                            <option value="Menengah">Menengah</option>
-                            <option value="Mahir">Mahir</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Jumlah Pelajaran</label>
-                        <input type="number" name="lesson_count" value="5" min="1" class="w-full px-4 py-2 rounded-xl border border-gray-200 text-xs focus:border-padma-primary outline-none" required>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Durasi (Menit)</label>
-                        <input type="number" name="duration_minutes" value="45" min="1" class="w-full px-4 py-2 rounded-xl border border-gray-200 text-xs focus:border-padma-primary outline-none" required>
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Deskripsi Modul</label>
-                    <textarea name="description" rows="3" class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:border-padma-primary outline-none resize-none" placeholder="Ringkasan isi modul..." required></textarea>
-                </div>
-
-                <button type="submit" class="w-full py-3 bg-padma-secondary hover:bg-amber-900 text-white font-bold text-xs rounded-xl shadow transition-colors flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-folder-plus"></i> Publikasikan Modul
-                </button>
-            </form>
-        </div>
-
     </div>
 
     <!-- Management Tables Section -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <div class="grid grid-cols-1 gap-8">
         
         <!-- Manage Stories List -->
-        <div class="lg:col-span-6 bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
+        <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
             <h3 class="text-base font-bold font-serif text-gray-900 mb-4">Daftar Cerita Dipublikasi</h3>
             <div class="divide-y divide-gray-100 max-h-96 overflow-y-auto">
                 @foreach($stories as $st)
@@ -262,33 +202,6 @@
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" onclick="return confirm('Hapus cerita ini?')" class="px-2.5 py-1 bg-red-50 hover:bg-red-100 text-red-700 text-xs font-bold rounded-lg border border-red-200 transition-colors flex items-center gap-1">
-                                    <i class="fa-solid fa-trash text-[10px]"></i> Hapus
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-
-        <!-- Manage Modules List -->
-        <div class="lg:col-span-6 bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
-            <h3 class="text-base font-bold font-serif text-gray-900 mb-4">Daftar Modul Pembelajaran</h3>
-            <div class="divide-y divide-gray-100 max-h-96 overflow-y-auto">
-                @foreach($modules as $md)
-                    <div class="py-3 flex items-center justify-between">
-                        <div>
-                            <span class="text-[10px] font-bold uppercase text-padma-primary">{{ $md->category }}</span>
-                            <h4 class="text-xs font-bold text-gray-900">{{ $md->title }}</h4>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <a href="{{ route('admin.modules.edit', $md->id) }}" class="px-2.5 py-1 bg-indigo-50 hover:bg-indigo-100 text-padma-primary text-xs font-bold rounded-lg border border-indigo-200 transition-colors flex items-center gap-1">
-                                <i class="fa-solid fa-pen-to-square text-[10px]"></i> Edit
-                            </a>
-                            <form action="{{ route('admin.modules.destroy', $md->id) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" onclick="return confirm('Hapus modul ini?')" class="px-2.5 py-1 bg-red-50 hover:bg-red-100 text-red-700 text-xs font-bold rounded-lg border border-red-200 transition-colors flex items-center gap-1">
                                     <i class="fa-solid fa-trash text-[10px]"></i> Hapus
                                 </button>
                             </form>
