@@ -47,7 +47,8 @@ class="min-h-screen transition-colors duration-300"
         <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
             
             <!-- Left Back Navigation -->
-            <a href="{{ route('home') }}" class="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+            <a href="{{ route('home') }}" class="inline-flex items-center gap-2 text-xs sm:text-sm font-bold transition-colors"
+               :class="{ 'text-slate-200 hover:text-white': themeMode === 'dark', 'text-slate-900 hover:text-blue-600': themeMode === 'light' }">
                 <i class="fa-solid fa-arrow-left text-xs"></i> Beranda Utama
             </a>
 
@@ -55,37 +56,41 @@ class="min-h-screen transition-colors duration-300"
             <div class="flex items-center gap-2">
                 <span class="px-3.5 py-1 text-xs font-extrabold font-display rounded-full uppercase tracking-wider border shadow-xs"
                       :class="{
-                        'bg-blue-50 dark:bg-blue-950/60 text-blue-900 dark:text-blue-200 border-blue-200 dark:border-blue-800': '{{ $document['type'] }}' === 'novel',
-                        'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-900 dark:text-emerald-200 border-emerald-200 dark:border-emerald-800': '{{ $document['type'] }}' === 'naskah',
-                        'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-200 border-slate-300 dark:border-slate-700': '{{ $document['type'] }}' === 'drama'
+                        'bg-slate-800 text-slate-100 border-slate-700': themeMode === 'dark',
+                        'bg-slate-200 text-slate-900 border-slate-300': themeMode === 'light'
                       }">
                     {{ $document['title'] }}
                 </span>
-                <span class="hidden md:inline-block text-xs font-mono font-bold opacity-75" x-text="`${readingProgress}% dibaca`"></span>
+                <span class="hidden md:inline-block text-xs font-mono font-bold"
+                      :class="{ 'text-slate-300': themeMode === 'dark', 'text-slate-800': themeMode === 'light' }"
+                      x-text="`${readingProgress}% dibaca`"></span>
             </div>
 
             <!-- Right Reader Customizer Toolkit -->
             <div class="flex items-center gap-2 sm:gap-4">
                 
                 <!-- Font Family Switcher -->
-                <div class="flex items-center bg-slate-200/90 dark:bg-slate-800/80 p-1 rounded-xl border border-slate-300 dark:border-slate-700 text-xs font-bold">
-                    <button @click="setFontFamily('font-serif')" class="px-3 py-1 rounded-lg transition-all" :class="fontFamily === 'font-serif' ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-950 font-extrabold shadow-xs' : 'text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white'">Serif</button>
-                    <button @click="setFontFamily('font-sans')" class="px-3 py-1 rounded-lg transition-all ml-1" :class="fontFamily === 'font-sans' ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-950 font-extrabold shadow-xs' : 'text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white'">Sans</button>
+                <div class="flex items-center p-1 rounded-xl border text-xs font-bold transition-colors"
+                     :class="{ 'bg-slate-950/60 border-slate-700': themeMode === 'dark', 'bg-slate-200/90 border-slate-300': themeMode === 'light' }">
+                    <button @click="setFontFamily('font-serif')" class="px-3 py-1 rounded-lg transition-all" :class="fontFamily === 'font-serif' ? 'bg-slate-900 text-white font-extrabold shadow-xs' : (themeMode === 'dark' ? 'text-slate-300 hover:text-white' : 'text-slate-800 hover:text-slate-950')">Serif</button>
+                    <button @click="setFontFamily('font-sans')" class="px-3 py-1 rounded-lg transition-all ml-1" :class="fontFamily === 'font-sans' ? 'bg-slate-900 text-white font-extrabold shadow-xs' : (themeMode === 'dark' ? 'text-slate-300 hover:text-white' : 'text-slate-800 hover:text-slate-950')">Sans</button>
                 </div>
 
                 <!-- Font Size Switcher -->
-                <div class="flex items-center bg-slate-200/90 dark:bg-slate-800/80 p-1 rounded-xl border border-slate-300 dark:border-slate-700 text-xs font-bold">
-                    <button @click="setFontSize('text-sm')" class="px-2.5 py-1 rounded-lg transition-all" :class="fontSize === 'text-sm' ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-950 font-extrabold shadow-xs' : 'text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white'">A-</button>
-                    <button @click="setFontSize('text-base')" class="px-2.5 py-1 rounded-lg transition-all ml-1" :class="fontSize === 'text-base' ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-950 font-extrabold shadow-xs' : 'text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white'">A</button>
-                    <button @click="setFontSize('text-xl')" class="px-2.5 py-1 rounded-lg transition-all ml-1" :class="fontSize === 'text-xl' ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-950 font-extrabold shadow-xs' : 'text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white'">A+</button>
+                <div class="flex items-center p-1 rounded-xl border text-xs font-bold transition-colors"
+                     :class="{ 'bg-slate-950/60 border-slate-700': themeMode === 'dark', 'bg-slate-200/90 border-slate-300': themeMode === 'light' }">
+                    <button @click="setFontSize('text-sm')" class="px-2.5 py-1 rounded-lg transition-all" :class="fontSize === 'text-sm' ? 'bg-slate-900 text-white font-extrabold shadow-xs' : (themeMode === 'dark' ? 'text-slate-300 hover:text-white' : 'text-slate-800 hover:text-slate-950')">A-</button>
+                    <button @click="setFontSize('text-base')" class="px-2.5 py-1 rounded-lg transition-all ml-1" :class="fontSize === 'text-base' ? 'bg-slate-900 text-white font-extrabold shadow-xs' : (themeMode === 'dark' ? 'text-slate-300 hover:text-white' : 'text-slate-800 hover:text-slate-950')">A</button>
+                    <button @click="setFontSize('text-xl')" class="px-2.5 py-1 rounded-lg transition-all ml-1" :class="fontSize === 'text-xl' ? 'bg-slate-900 text-white font-extrabold shadow-xs' : (themeMode === 'dark' ? 'text-slate-300 hover:text-white' : 'text-slate-800 hover:text-slate-950')">A+</button>
                 </div>
 
                 <!-- 2-Mode Color Theme Switcher (Light & Dark) -->
-                <div class="flex items-center bg-slate-200/90 dark:bg-slate-800/80 p-1 rounded-xl border border-slate-300 dark:border-slate-700 text-xs font-bold">
-                    <button @click="setThemeMode('light')" class="px-3.5 py-1 rounded-lg transition-all flex items-center gap-1.5" :class="themeMode === 'light' ? 'bg-white text-slate-950 shadow-xs border border-slate-300 font-extrabold' : 'text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white'">
+                <div class="flex items-center p-1 rounded-xl border text-xs font-bold transition-colors"
+                     :class="{ 'bg-slate-950/60 border-slate-700': themeMode === 'dark', 'bg-slate-200/90 border-slate-300': themeMode === 'light' }">
+                    <button @click="setThemeMode('light')" class="px-3.5 py-1 rounded-lg transition-all flex items-center gap-1.5" :class="themeMode === 'light' ? 'bg-white text-slate-950 shadow-xs border border-slate-300 font-extrabold' : (themeMode === 'dark' ? 'text-slate-300 hover:text-white' : 'text-slate-800 hover:text-slate-950')">
                         <i class="fa-solid fa-sun text-amber-600"></i> Light
                     </button>
-                    <button @click="setThemeMode('dark')" class="px-3.5 py-1 rounded-lg transition-all flex items-center gap-1.5 ml-1" :class="themeMode === 'dark' ? 'bg-slate-950 text-white shadow-xs border border-slate-700 font-extrabold' : 'text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white'">
+                    <button @click="setThemeMode('dark')" class="px-3.5 py-1 rounded-lg transition-all flex items-center gap-1.5 ml-1" :class="themeMode === 'dark' ? 'bg-slate-950 text-white shadow-xs border border-slate-700 font-extrabold' : (themeMode === 'dark' ? 'text-slate-300 hover:text-white' : 'text-slate-800 hover:text-slate-950')">
                         <i class="fa-solid fa-moon text-indigo-400"></i> Dark
                     </button>
                 </div>
@@ -109,10 +114,12 @@ class="min-h-screen transition-colors duration-300"
                     <!-- Table of Contents Header -->
                     <div class="flex items-center justify-between border-b pb-3 mb-4"
                          :class="{ 'border-slate-800': themeMode === 'dark', 'border-slate-200': themeMode === 'light' }">
-                        <span class="text-xs font-extrabold uppercase tracking-widest flex items-center gap-2">
-                            <i class="fa-solid fa-list-ul text-slate-700 dark:text-slate-300"></i> Navigasi Bab
+                        <span class="text-xs font-extrabold uppercase tracking-widest flex items-center gap-2"
+                              :class="{ 'text-slate-100': themeMode === 'dark', 'text-slate-950': themeMode === 'light' }">
+                            <i class="fa-solid fa-list-ul" :class="{ 'text-slate-300': themeMode === 'dark', 'text-slate-700': themeMode === 'light' }"></i> Navigasi Bab
                         </span>
-                        <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700 font-extrabold">
+                        <span class="text-[10px] font-mono px-2.5 py-0.5 rounded-full border font-extrabold"
+                              :class="{ 'bg-slate-800 text-slate-200 border-slate-700': themeMode === 'dark', 'bg-slate-100 text-slate-900 border-slate-300': themeMode === 'light' }">
                             {{ count($document['sections']) }} Bagian
                         </span>
                     </div>
@@ -124,9 +131,9 @@ class="min-h-screen transition-colors duration-300"
                                class="block px-3 py-2 text-xs font-bold rounded-xl transition-all truncate hover:translate-x-1"
                                :class="{
                                     'text-slate-300 hover:bg-slate-800 hover:text-white': themeMode === 'dark',
-                                    'text-slate-700 hover:bg-slate-100 hover:text-blue-600': themeMode === 'light'
+                                    'text-slate-800 hover:bg-slate-100 hover:text-blue-600': themeMode === 'light'
                                }">
-                                <i class="fa-solid fa-chevron-right text-[9px] text-slate-400 mr-1.5"></i>
+                                <i class="fa-solid fa-chevron-right text-[9px] mr-1.5" :class="{ 'text-slate-500': themeMode === 'dark', 'text-slate-400': themeMode === 'light' }"></i>
                                 {{ $sec['title'] }}
                             </a>
                         @endforeach
@@ -135,14 +142,15 @@ class="min-h-screen transition-colors duration-300"
                     <!-- Character Filter Box (If Characters Present) -->
                     @if(count($document['characters']) > 0)
                         <div class="pt-6 border-t mt-6" :class="{ 'border-slate-800': themeMode === 'dark', 'border-slate-200': themeMode === 'light' }">
-                            <div class="text-[11px] font-extrabold uppercase tracking-widest mb-3 flex items-center gap-2 text-slate-800 dark:text-slate-200">
-                                <i class="fa-solid fa-users text-slate-600 dark:text-slate-400"></i> Sorot Dialog Tokoh
+                            <div class="text-[11px] font-extrabold uppercase tracking-widest mb-3 flex items-center gap-2"
+                                 :class="{ 'text-slate-100': themeMode === 'dark', 'text-slate-950': themeMode === 'light' }">
+                                <i class="fa-solid fa-users" :class="{ 'text-slate-300': themeMode === 'dark', 'text-slate-700': themeMode === 'light' }"></i> Sorot Dialog Tokoh
                             </div>
                             <div class="flex flex-wrap gap-1.5">
                                 @foreach($document['characters'] as $char)
                                     <button @click="toggleCharacterFilter('{{ $char }}')" 
                                             class="px-2.5 py-1 text-[10px] font-bold font-mono rounded-lg border transition-all"
-                                            :class="activeCharFilter === '{{ $char }}' ? 'bg-blue-600 text-white border-blue-600 shadow-xs font-black' : 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border-slate-300 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700'">
+                                            :class="activeCharFilter === '{{ $char }}' ? 'bg-slate-900 text-white border-slate-900 shadow-xs font-black' : (themeMode === 'dark' ? 'bg-slate-800 text-slate-200 border-slate-700 hover:bg-slate-700' : 'bg-slate-100 text-slate-900 border-slate-300 hover:bg-slate-200')">
                                         {{ $char }}
                                     </button>
                                 @endforeach
@@ -164,15 +172,17 @@ class="min-h-screen transition-colors duration-300"
                     <!-- Document Header -->
                     <header class="mb-10 pb-8 border-b" :class="{ 'border-slate-800': themeMode === 'dark', 'border-slate-200': themeMode === 'light' }">
                         <div class="flex flex-wrap items-center gap-3 mb-4">
-                            <span class="px-3 py-1 bg-amber-100 dark:bg-amber-950/60 text-amber-900 dark:text-amber-300 text-xs font-bold rounded-full uppercase tracking-wider border border-amber-300 dark:border-amber-700">
+                            <span class="px-3.5 py-1 text-xs font-bold rounded-full uppercase tracking-wider border"
+                                  :class="{ 'bg-slate-800 text-slate-200 border-slate-700': themeMode === 'dark', 'bg-slate-100 text-slate-900 border-slate-300': themeMode === 'light' }">
                                 {{ $document['theme'] ?: 'Kedaulatan & Emansipasi Perempuan' }}
                             </span>
-                            <span class="text-xs text-slate-500 dark:text-slate-400 font-mono ml-auto">
+                            <span class="text-xs font-mono ml-auto" :class="{ 'text-slate-400': themeMode === 'dark', 'text-slate-600': themeMode === 'light' }">
                                 Dokumen Resmi Statis &bull; resources/dokumen/
                             </span>
                         </div>
 
-                        <h1 class="text-3xl sm:text-5xl font-extrabold font-serif leading-tight tracking-tight mb-4 text-slate-950 dark:text-white">
+                        <h1 class="text-3xl sm:text-5xl font-black font-serif leading-tight tracking-tight mb-4 transition-colors"
+                            :class="{ 'text-white': themeMode === 'dark', 'text-slate-950': themeMode === 'light' }">
                             {{ $document['title'] }}
                         </h1>
                     </header>
@@ -187,11 +197,12 @@ class="min-h-screen transition-colors duration-300"
                             :class="{ 'border-slate-800': themeMode === 'dark', 'border-slate-200': themeMode === 'light' }">
                         <div class="flex items-center gap-3">
                             <button onclick="navigator.clipboard.writeText(document.querySelector('.document-content').innerText); alert('Teks dokumen berhasil disalin!')" 
-                                    class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold rounded-xl transition-all flex items-center gap-2 shadow-sm">
+                                    class="px-4 py-2.5 text-xs font-bold rounded-xl transition-all flex items-center gap-2 shadow-xs"
+                                    :class="{ 'bg-slate-800 hover:bg-slate-700 text-slate-200': themeMode === 'dark', 'bg-slate-100 hover:bg-slate-200 text-slate-900 border border-slate-300': themeMode === 'light' }">
                                 <i class="fa-regular fa-copy"></i> Salin Teks Dokumen
                             </button>
                         </div>
-                        <a href="{{ route('home') }}" class="px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs font-bold rounded-xl transition-all flex items-center gap-2 shadow-md">
+                        <a href="{{ route('home') }}" class="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-xl transition-all flex items-center gap-2 shadow-md">
                             <i class="fa-solid fa-house"></i> Kembali ke Beranda Utama
                         </a>
                     </footer>
