@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="py-10 bg-slate-50 min-h-screen">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         
         <!-- Header Banner Card -->
         <div class="glass-card rounded-3xl p-6 sm:p-10 relative overflow-hidden bg-gradient-to-br from-white via-slate-50 to-indigo-50/40 border border-slate-200/90 shadow-sm">
@@ -12,7 +12,7 @@
             <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"></div>
 
             <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-                <div class="space-y-3 max-w-2xl">
+                <div class="space-y-3 max-w-3xl">
                     <div class="inline-flex items-center gap-2 px-3 py-1 bg-indigo-50 text-indigo-700 rounded-full text-xs font-bold font-mono tracking-wider border border-indigo-200/80">
                         <i class="fa-solid fa-clipboard-question text-indigo-600"></i> Kuesioner &amp; Feedback
                     </div>
@@ -40,7 +40,7 @@
             <div class="w-full overflow-x-auto flex justify-center bg-slate-100/50 rounded-2xl p-1 sm:p-4">
                 <iframe 
                     src="https://docs.google.com/forms/d/e/1FAIpQLSdCjD5iiI-Gki3oSN46fxqm7V3wlsKZd5pgHGyO9VUSLu2nrA/viewform?embedded=true" 
-                    class="w-full max-w-3xl rounded-xl shadow-xs bg-white border border-slate-200/80 min-h-[850px] sm:min-h-[1000px] h-[75vh]" 
+                    class="w-full max-w-6xl rounded-2xl shadow-sm bg-white border border-slate-200/80 min-h-[950px] sm:min-h-[1150px] h-[85vh]" 
                     frameborder="0" 
                     marginheight="0" 
                     marginwidth="0">
