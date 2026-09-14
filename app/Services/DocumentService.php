@@ -49,14 +49,55 @@ class DocumentService
 
                 $pNodes = $xpath->query('//w:p');
                 foreach ($pNodes as $pNode) {
-                    $textNodes = $xpath->query('.//w:t', $pNode);
-                    $line = '';
-                    foreach ($textNodes as $tNode) {
-                        $line .= $tNode->nodeValue;
+                    $rNodes = $xpath->query('.//w:r', $pNode);
+                    
+                    $fullLine = '';
+                    foreach ($xpath->query('.//w:t', $pNode) as $tNode) {
+                        $fullLine .= $tNode->nodeValue;
                     }
-                    $trimmed = trim($line);
-                    if ($trimmed !== '') {
-                        $paragraphs[] = $trimmed;
+                    $trimmedFull = trim($fullLine);
+                    if ($trimmedFull === '') {
+                        continue;
+                    }
+
+                    // Check if paragraph starts with BAB or SCENE header
+                    if (preg_match('/^(BAB\s+[\dIVXLCDM]+|SCENE\s+\d+)/i', $trimmedFull)) {
+                        $titleText = '';
+                        $bodyText = '';
+                        $inBody = false;
+
+                        foreach ($rNodes as $rNode) {
+                            $rText = '';
+                            foreach ($xpath->query('.//w:t', $rNode) as $t) {
+                                $rText .= $t->nodeValue;
+                            }
+
+                            $bNode = $xpath->query('.//w:b', $rNode);
+                            $isBold = $bNode->length > 0;
+
+                            if (!$inBody) {
+                                if ($isBold || trim($rText) === '') {
+                                    $titleText .= $rText;
+                                } else {
+                                    $inBody = true;
+                                    $bodyText .= $rText;
+                                }
+                            } else {
+                                $bodyText .= $rText;
+                            }
+                        }
+
+                        $titleTrimmed = trim($titleText);
+                        $bodyTrimmed = trim($bodyText);
+
+                        if ($titleTrimmed !== '') {
+                            $paragraphs[] = $titleTrimmed;
+                        }
+                        if ($bodyTrimmed !== '') {
+                            $paragraphs[] = $bodyTrimmed;
+                        }
+                    } else {
+                        $paragraphs[] = $trimmedFull;
                     }
                 }
             }
@@ -92,15 +133,15 @@ class DocumentService
             }
 
             // Detect BAB (for Novel) or SCENE (for Naskah/Drama)
-            $isChapter = preg_match('/^(BAB\s+[\dIVXLCDM]+(?::\s*[^.\n\r]{1,50})?)(.*)$/i', $p, $chMatch);
-            $isScene = preg_match('/^(SCENE\s+\d+(?::\s*[^.\n\r]{1,50})?)(.*)$/i', $p, $scMatch);
+            $isChapter = preg_match('/^(BAB\s+[\dIVXLCDM]+(?::\s*[^.\n\r]+)?)$/i', $p, $chMatch);
+            $isScene = preg_match('/^(SCENE\s+\d+.*)$/i', $p, $scMatch);
 
             if ($isChapter || $isScene) {
                 if ($currentSection) {
                     $sections[] = $currentSection;
                 }
 
-                $titleText = $isChapter ? trim($chMatch[1]) : trim($scMatch[1]);
+                $titleText = $isChapter ? trim($chMatch[1]) : trim($scMatch[0]);
                 $sectionId = 'section-' . (count($sections) + 1);
 
                 $currentSection = [
@@ -110,12 +151,6 @@ class DocumentService
                     'paragraphs' => [],
                     'html' => ''
                 ];
-
-                // If remaining text exists in the same paragraph line, add it as first paragraph
-                $remainingText = $isChapter ? trim($chMatch[2] ?? '') : trim($scMatch[2] ?? '');
-                if ($remainingText !== '') {
-                    $currentSection['paragraphs'][] = $remainingText;
-                }
                 continue;
             }
 
@@ -146,7 +181,7 @@ class DocumentService
 
         // Format HTML for each section
         foreach ($sections as &$sec) {
-            $secHtml = '<div id="' . e($sec['id']) . '" class="doc-section mb-12 scroll-mt-24">';
+            $secHtml = '<div id="' . e($sec['id']) . '" class="doc-section mb-12 scroll-mt-40">';
             
             if ($sec['type'] === 'chapter') {
                 $secHtml .= '<h3 class="text-2xl sm:text-3xl font-extrabold font-serif border-b border-slate-200 dark:border-slate-800 pb-3 mb-6 flex items-center gap-3"><i class="fa-solid fa-feather-pointed text-blue-600 dark:text-blue-400 text-lg"></i> ' . e($sec['title']) . '</h3>';
@@ -179,8 +214,8 @@ class DocumentService
                 }
 
                 // Regular Paragraph
-                $dropCapClass = ($pIdx === 0 && $sec['type'] === 'chapter') ? 'first-letter:text-4xl first-letter:font-extrabold first-letter:font-serif first-letter:text-slate-900 dark:first-letter:text-slate-100 first-letter:float-left first-letter:mr-2.5 first-letter:leading-none' : '';
-                $secHtml .= '<p class="leading-relaxed text-base sm:text-lg mb-5 font-sans ' . $dropCapClass . '">' . nl2br(e($pText)) . '</p>';
+                $dropCapClass = ($pIdx === 0 && $sec['type'] === 'chapter') ? 'first-letter:text-4xl first-letter:font-extrabold first-letter:font-serif first-letter:float-left first-letter:mr-2.5 first-letter:leading-none' : '';
+                $secHtml .= '<p class="leading-relaxed mb-5 text-justify ' . $dropCapClass . '">' . nl2br(e($pText)) . '</p>';
             }
 
             $secHtml .= '</div>';

@@ -340,9 +340,9 @@
                 </div>
 
                 <div class="flex items-center justify-center pb-2">
-                    <button @click="openFormatReader('novel')" class="btn-novel-glow font-display px-10 py-3 rounded-full text-xs sm:text-sm font-bold tracking-widest uppercase text-white bg-black/85 border-2 border-red-500 hover:bg-red-500/20 transition-all duration-300 pointer-events-auto">
-                        BACA NOVEL
-                    </button>
+                    <a href="{{ route('documents.novel') }}" class="btn-novel-glow inline-flex items-center justify-center font-display px-10 py-3 rounded-full text-xs sm:text-sm font-bold tracking-widest uppercase text-white bg-black/85 border-2 border-red-500 hover:bg-red-500/20 transition-all duration-300 pointer-events-auto">
+                        BACA NOVEL <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+                    </a>
                 </div>
             </div>
 
@@ -390,9 +390,9 @@
                 </div>
 
                 <div class="flex items-center justify-center pb-2">
-                    <button @click="openFormatReader('naskah')" class="btn-manuscript-glow font-display px-10 py-3 rounded-full text-xs sm:text-sm font-bold tracking-widest uppercase text-white bg-black/85 border-2 border-amber-400 hover:bg-amber-400/20 transition-all duration-300 pointer-events-auto">
-                        PELAJARI NASKAH
-                    </button>
+                    <a href="{{ route('documents.naskah') }}" class="btn-manuscript-glow inline-flex items-center justify-center font-display px-10 py-3 rounded-full text-xs sm:text-sm font-bold tracking-widest uppercase text-white bg-black/85 border-2 border-amber-400 hover:bg-amber-400/20 transition-all duration-300 pointer-events-auto">
+                        PELAJARI NASKAH <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+                    </a>
                 </div>
             </div>
 
@@ -442,9 +442,9 @@
                 </div>
 
                 <div class="flex items-center justify-center pb-2">
-                    <button @click="openFormatReader('drama')" class="btn-drama-glow font-display px-10 py-3 rounded-full text-xs sm:text-sm font-bold tracking-widest uppercase text-white bg-black/85 border-2 border-cyan-400 hover:bg-cyan-400/20 transition-all duration-300 pointer-events-auto">
-                        BACA DRAMA
-                    </button>
+                    <a href="{{ route('documents.drama') }}" class="btn-drama-glow inline-flex items-center justify-center font-display px-10 py-3 rounded-full text-xs sm:text-sm font-bold tracking-widest uppercase text-white bg-black/85 border-2 border-cyan-400 hover:bg-cyan-400/20 transition-all duration-300 pointer-events-auto">
+                        BACA DRAMA <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+                    </a>
                 </div>
             </div>
 
@@ -465,52 +465,6 @@
     </main>
     <!-- END: 3-Sheet Horizontal Accordion Layout -->
 
-    <!-- Interactive Format Reader Modal / Slide-Over -->
-    <div x-show="activeModal" x-transition.opacity class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-xl" style="display: none;">
-        <div class="relative w-full max-w-4xl max-h-[90vh] bg-[#090a10] rounded-3xl border shadow-2xl flex flex-col overflow-hidden" 
-             :class="{
-                'border-red-500/50 shadow-[0_0_35px_rgba(255,42,85,0.3)]': modalTheme === 'novel',
-                'border-amber-400/50 shadow-[0_0_35px_rgba(255,183,3,0.3)]': modalTheme === 'manuscript',
-                'border-cyan-400/50 shadow-[0_0_35px_rgba(0,240,255,0.3)]': modalTheme === 'drama'
-             }">
-            
-            <!-- Modal Header -->
-            <div class="px-6 py-4 border-b border-white/10 flex items-center justify-between bg-black/60">
-                <div class="flex items-center gap-3">
-                    <span class="px-3 py-1 rounded-full text-xs font-display font-bold tracking-widest uppercase"
-                          :class="{
-                            'bg-red-500/20 text-red-400 border border-red-500/40': modalTheme === 'novel',
-                            'bg-amber-400/20 text-amber-300 border border-amber-400/40': modalTheme === 'manuscript',
-                            'bg-cyan-400/20 text-cyan-300 border border-cyan-400/40': modalTheme === 'drama'
-                          }"
-                          x-text="modalFormat">
-                    </span>
-                    <h3 class="font-display font-extrabold text-base sm:text-lg text-white truncate max-w-md" x-text="modalTitle"></h3>
-                </div>
-                <button @click="activeModal = null" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-gray-300 hover:text-white flex items-center justify-center transition-colors">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
-            </div>
-
-            <!-- Modal Body Content -->
-            <div class="p-6 sm:p-10 overflow-y-auto space-y-6 text-gray-200 text-sm sm:text-base leading-relaxed font-sans" x-html="modalContent">
-            </div>
-
-            <!-- Modal Footer -->
-            <div class="px-6 py-4 border-t border-white/10 bg-black/60 flex flex-wrap items-center justify-between gap-4">
-                <div class="text-xs font-mono text-gray-400 flex items-center gap-2">
-                    <i class="fa-solid fa-shield-halved text-cyan-400"></i>
-                    <span>PADMASARI AI FILOLOGI ENGINE</span>
-                </div>
-                <div class="flex items-center gap-3">
-                    <a :href="activeModal === 'novel' ? '{{ route('documents.novel') }}' : (activeModal === 'naskah' ? '{{ route('documents.naskah') }}' : '{{ route('documents.drama') }}')" class="px-5 py-2 rounded-full text-xs font-display font-bold text-white bg-white/10 hover:bg-white/20 transition-all flex items-center gap-2">
-                        <i class="fa-solid fa-book-open text-amber-400"></i> Buka Halaman Dokumen Penuh
-                    </a>
-                    <button @click="activeModal = null" class="px-6 py-2 rounded-full text-xs font-display font-bold text-black bg-white hover:bg-gray-200 transition-all">
-                        Tutup Viewer
-                    </button>
-                </div>
-            </div>
     <!-- Floating Kuesioner Quick Badge -->
     <div class="fixed bottom-6 right-6 z-40">
         <a href="{{ route('questionnaire') }}" class="group flex items-center gap-3 px-4 py-2.5 rounded-full bg-black/85 backdrop-blur-xl border border-indigo-500/60 text-white shadow-[0_0_20px_rgba(99,102,241,0.5)] hover:border-indigo-400 hover:shadow-[0_0_30px_rgba(99,102,241,0.8)] hover:scale-105 transition-all duration-300">

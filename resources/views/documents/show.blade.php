@@ -14,19 +14,16 @@
     setThemeMode(mode) { this.themeMode = mode; },
     setFontFamily(font) { this.fontFamily = font; },
     toggleCharacterFilter(charName) {
-        if (this.activeCharFilter === charName) {
-            this.activeCharFilter = null;
-        } else {
-            this.activeCharFilter = charName;
-        }
+        this.activeCharFilter = (this.activeCharFilter === charName) ? null : charName;
     },
     updateProgress() {
-        const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
-        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        this.readingProgress = height > 0 ? Math.round((winScroll / height) * 100) : 0;
+        const winScroll = window.scrollY || document.documentElement.scrollTop || 0;
+        const height = (document.documentElement.scrollHeight || document.body.scrollHeight) - window.innerHeight;
+        this.readingProgress = height > 0 ? Math.min(100, Math.max(0, Math.round((winScroll / height) * 100))) : 0;
     }
 }" 
-x-init="window.addEventListener('scroll', () => updateProgress())"
+x-init="updateProgress()"
+@scroll.window="updateProgress()"
 class="min-h-screen transition-colors duration-300"
 :class="{
     'bg-slate-950 text-slate-100': themeMode === 'dark',
@@ -34,12 +31,12 @@ class="min-h-screen transition-colors duration-300"
 }">
 
     <!-- Sticky Reading Progress Bar -->
-    <div class="fixed top-0 left-0 right-0 h-1.5 bg-slate-200 dark:bg-slate-800 z-50 pointer-events-none">
+    <div class="fixed top-20 left-0 right-0 h-1.5 bg-slate-200 dark:bg-slate-800 z-50 pointer-events-none">
         <div class="h-full bg-amber-500 transition-all duration-150" :style="`width: ${readingProgress}%`"></div>
     </div>
 
-    <!-- Header Navigation & Reader Toolkit Bar -->
-    <div class="sticky top-0 z-40 backdrop-blur-xl border-b py-3 px-4 sm:px-8 transition-colors duration-300"
+    <!-- Header Navigation & Reader Toolkit Bar (Stacked below main navbar at top-20) -->
+    <div class="sticky top-20 z-40 backdrop-blur-xl border-b py-3 px-4 sm:px-8 transition-colors duration-300 shadow-sm"
          :class="{
             'bg-slate-900/95 border-slate-800 text-slate-100': themeMode === 'dark',
             'bg-white/95 border-slate-200 text-slate-900 shadow-xs': themeMode === 'light'
@@ -52,7 +49,7 @@ class="min-h-screen transition-colors duration-300"
                 <i class="fa-solid fa-arrow-left text-xs"></i> Beranda Utama
             </a>
 
-            <!-- Center Title Badge -->
+            <!-- Center Title Badge & Scroll Progress -->
             <div class="flex items-center gap-2">
                 <span class="px-3.5 py-1 text-xs font-extrabold font-display rounded-full uppercase tracking-wider border shadow-xs"
                       :class="{
@@ -61,9 +58,10 @@ class="min-h-screen transition-colors duration-300"
                       }">
                     {{ $document['title'] }}
                 </span>
-                <span class="hidden md:inline-block text-xs font-mono font-bold"
-                      :class="{ 'text-slate-300': themeMode === 'dark', 'text-slate-800': themeMode === 'light' }"
-                      x-text="`${readingProgress}% dibaca`"></span>
+                <span class="hidden md:inline-flex items-center gap-1.5 text-xs font-mono font-bold px-2.5 py-1 rounded-full border"
+                      :class="{ 'bg-slate-800 text-amber-400 border-slate-700': themeMode === 'dark', 'bg-amber-50 text-amber-800 border-amber-200': themeMode === 'light' }">
+                    <i class="fa-solid fa-book-open text-[10px]"></i> <span x-text="`${readingProgress}% dibaca`"></span>
+                </span>
             </div>
 
             <!-- Right Reader Customizer Toolkit -->
@@ -72,26 +70,26 @@ class="min-h-screen transition-colors duration-300"
                 <!-- Font Family Switcher -->
                 <div class="flex items-center p-1 rounded-xl border text-xs font-bold transition-colors"
                      :class="{ 'bg-slate-950/60 border-slate-700': themeMode === 'dark', 'bg-slate-200/90 border-slate-300': themeMode === 'light' }">
-                    <button @click="setFontFamily('font-serif')" class="px-3 py-1 rounded-lg transition-all" :class="fontFamily === 'font-serif' ? 'bg-slate-900 text-white font-extrabold shadow-xs' : (themeMode === 'dark' ? 'text-slate-300 hover:text-white' : 'text-slate-800 hover:text-slate-950')">Serif</button>
-                    <button @click="setFontFamily('font-sans')" class="px-3 py-1 rounded-lg transition-all ml-1" :class="fontFamily === 'font-sans' ? 'bg-slate-900 text-white font-extrabold shadow-xs' : (themeMode === 'dark' ? 'text-slate-300 hover:text-white' : 'text-slate-800 hover:text-slate-950')">Sans</button>
+                    <button @click="setFontFamily('font-serif')" class="px-3 py-1 rounded-lg transition-all" :class="fontFamily === 'font-serif' ? (themeMode === 'dark' ? 'bg-blue-600 text-white font-extrabold shadow-xs' : 'bg-slate-900 text-white font-extrabold shadow-xs') : (themeMode === 'dark' ? 'text-slate-300 hover:text-white' : 'text-slate-700 hover:text-slate-950')">Serif</button>
+                    <button @click="setFontFamily('font-sans')" class="px-3 py-1 rounded-lg transition-all ml-1" :class="fontFamily === 'font-sans' ? (themeMode === 'dark' ? 'bg-blue-600 text-white font-extrabold shadow-xs' : 'bg-slate-900 text-white font-extrabold shadow-xs') : (themeMode === 'dark' ? 'text-slate-300 hover:text-white' : 'text-slate-700 hover:text-slate-950')">Sans</button>
                 </div>
 
                 <!-- Font Size Switcher -->
                 <div class="flex items-center p-1 rounded-xl border text-xs font-bold transition-colors"
                      :class="{ 'bg-slate-950/60 border-slate-700': themeMode === 'dark', 'bg-slate-200/90 border-slate-300': themeMode === 'light' }">
-                    <button @click="setFontSize('text-sm')" class="px-2.5 py-1 rounded-lg transition-all" :class="fontSize === 'text-sm' ? 'bg-slate-900 text-white font-extrabold shadow-xs' : (themeMode === 'dark' ? 'text-slate-300 hover:text-white' : 'text-slate-800 hover:text-slate-950')">A-</button>
-                    <button @click="setFontSize('text-base')" class="px-2.5 py-1 rounded-lg transition-all ml-1" :class="fontSize === 'text-base' ? 'bg-slate-900 text-white font-extrabold shadow-xs' : (themeMode === 'dark' ? 'text-slate-300 hover:text-white' : 'text-slate-800 hover:text-slate-950')">A</button>
-                    <button @click="setFontSize('text-xl')" class="px-2.5 py-1 rounded-lg transition-all ml-1" :class="fontSize === 'text-xl' ? 'bg-slate-900 text-white font-extrabold shadow-xs' : (themeMode === 'dark' ? 'text-slate-300 hover:text-white' : 'text-slate-800 hover:text-slate-950')">A+</button>
+                    <button @click="setFontSize('text-sm')" class="px-2.5 py-1 rounded-lg transition-all" :class="fontSize === 'text-sm' ? (themeMode === 'dark' ? 'bg-blue-600 text-white font-extrabold shadow-xs' : 'bg-slate-900 text-white font-extrabold shadow-xs') : (themeMode === 'dark' ? 'text-slate-300 hover:text-white' : 'text-slate-700 hover:text-slate-950')">A-</button>
+                    <button @click="setFontSize('text-base')" class="px-2.5 py-1 rounded-lg transition-all ml-1" :class="fontSize === 'text-base' ? (themeMode === 'dark' ? 'bg-blue-600 text-white font-extrabold shadow-xs' : 'bg-slate-900 text-white font-extrabold shadow-xs') : (themeMode === 'dark' ? 'text-slate-300 hover:text-white' : 'text-slate-700 hover:text-slate-950')">A</button>
+                    <button @click="setFontSize('text-xl')" class="px-2.5 py-1 rounded-lg transition-all ml-1" :class="fontSize === 'text-xl' ? (themeMode === 'dark' ? 'bg-blue-600 text-white font-extrabold shadow-xs' : 'bg-slate-900 text-white font-extrabold shadow-xs') : (themeMode === 'dark' ? 'text-slate-300 hover:text-white' : 'text-slate-700 hover:text-slate-950')">A+</button>
                 </div>
 
                 <!-- 2-Mode Color Theme Switcher (Light & Dark) -->
                 <div class="flex items-center p-1 rounded-xl border text-xs font-bold transition-colors"
                      :class="{ 'bg-slate-950/60 border-slate-700': themeMode === 'dark', 'bg-slate-200/90 border-slate-300': themeMode === 'light' }">
-                    <button @click="setThemeMode('light')" class="px-3.5 py-1 rounded-lg transition-all flex items-center gap-1.5" :class="themeMode === 'light' ? 'bg-white text-slate-950 shadow-xs border border-slate-300 font-extrabold' : (themeMode === 'dark' ? 'text-slate-300 hover:text-white' : 'text-slate-800 hover:text-slate-950')">
-                        <i class="fa-solid fa-sun text-amber-600"></i> Light
+                    <button @click="setThemeMode('light')" class="px-3.5 py-1 rounded-lg transition-all flex items-center gap-1.5" :class="themeMode === 'light' ? 'bg-white text-slate-950 shadow-xs border border-slate-300 font-extrabold' : 'text-slate-400 hover:text-white'">
+                        <i class="fa-solid fa-sun text-amber-500"></i> Light
                     </button>
-                    <button @click="setThemeMode('dark')" class="px-3.5 py-1 rounded-lg transition-all flex items-center gap-1.5 ml-1" :class="themeMode === 'dark' ? 'bg-slate-950 text-white shadow-xs border border-slate-700 font-extrabold' : (themeMode === 'dark' ? 'text-slate-300 hover:text-white' : 'text-slate-800 hover:text-slate-950')">
-                        <i class="fa-solid fa-moon text-indigo-400"></i> Dark
+                    <button @click="setThemeMode('dark')" class="px-3.5 py-1 rounded-lg transition-all flex items-center gap-1.5 ml-1" :class="themeMode === 'dark' ? 'bg-blue-600 text-white shadow-xs font-extrabold' : 'text-slate-700 hover:text-slate-950'">
+                        <i class="fa-solid fa-moon text-indigo-300"></i> Dark
                     </button>
                 </div>
 
@@ -105,7 +103,7 @@ class="min-h-screen transition-colors duration-300"
             
             <!-- Sticky Sidebar: Table of Contents & Character Filter -->
             <aside class="lg:col-span-3 space-y-6">
-                <div class="sticky top-24 p-6 rounded-3xl border transition-colors duration-300"
+                <div class="sticky top-40 p-6 rounded-3xl border transition-colors duration-300"
                      :class="{
                         'bg-slate-900 border-slate-800 text-slate-100 shadow-xl': themeMode === 'dark',
                         'bg-white border-slate-200 text-slate-900 shadow-md': themeMode === 'light'
@@ -150,7 +148,7 @@ class="min-h-screen transition-colors duration-300"
                                 @foreach($document['characters'] as $char)
                                     <button @click="toggleCharacterFilter('{{ $char }}')" 
                                             class="px-2.5 py-1 text-[10px] font-bold font-mono rounded-lg border transition-all"
-                                            :class="activeCharFilter === '{{ $char }}' ? 'bg-slate-900 text-white border-slate-900 shadow-xs font-black' : (themeMode === 'dark' ? 'bg-slate-800 text-slate-200 border-slate-700 hover:bg-slate-700' : 'bg-slate-100 text-slate-900 border-slate-300 hover:bg-slate-200')">
+                                            :class="activeCharFilter === '{{ $char }}' ? 'bg-blue-600 text-white border-blue-600 shadow-sm font-black scale-105' : (themeMode === 'dark' ? 'bg-slate-800 text-slate-200 border-slate-700 hover:bg-slate-700' : 'bg-slate-100 text-slate-900 border-slate-300 hover:bg-slate-200')">
                                         {{ $char }}
                                     </button>
                                 @endforeach
@@ -188,7 +186,30 @@ class="min-h-screen transition-colors duration-300"
                     </header>
 
                     <!-- Document Formatted Content -->
-                    <div class="document-content space-y-6" :class="[fontSize, fontFamily]">
+                    <style>
+                        .character-filter-enabled .character-tag {
+                            opacity: 0.35;
+                            filter: grayscale(80%);
+                            transition: all 0.2s ease-in-out;
+                        }
+                        .character-filter-enabled .character-tag.is-active-char {
+                            opacity: 1 !important;
+                            filter: grayscale(0%) !important;
+                            transform: scale(1.08);
+                            box-shadow: 0 0 12px rgba(59, 130, 246, 0.5);
+                        }
+                    </style>
+                    <div class="document-content space-y-6 text-justify" 
+                         :class="[fontSize, fontFamily, activeCharFilter ? 'character-filter-enabled' : '']"
+                         x-effect="
+                            document.querySelectorAll('.character-tag').forEach(el => {
+                                if (activeCharFilter && el.getAttribute('data-character') === activeCharFilter) {
+                                    el.classList.add('is-active-char');
+                                } else {
+                                    el.classList.remove('is-active-char');
+                                }
+                            });
+                         ">
                         {!! $document['formatted_html'] !!}
                     </div>
 
