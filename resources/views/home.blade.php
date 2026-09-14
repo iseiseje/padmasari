@@ -296,9 +296,6 @@
 
         <!-- Right Quick Actions -->
         <div class="flex items-center gap-3">
-            <a href="{{ route('questionnaire') }}" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-indigo-500/60 bg-indigo-950/60 text-xs font-display text-indigo-300 hover:text-white hover:border-indigo-400 hover:bg-indigo-600/40 transition-all shadow-[0_0_14px_rgba(99,102,241,0.5)]">
-                <i class="fa-solid fa-clipboard-question text-indigo-400 text-[11px]"></i> Kuesioner
-            </a>
             <a href="{{ route('admin.dashboard') }}" class="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/20 text-xs font-display text-gray-300 hover:text-white hover:border-cyan-400 transition-colors">
                 <i class="fa-solid fa-user-shield text-cyan-400 text-[10px]"></i> Admin
             </a>
