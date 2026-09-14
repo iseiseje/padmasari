@@ -296,9 +296,6 @@
 
         <!-- Right Quick Actions -->
         <div class="flex items-center gap-3">
-            <a href="{{ route('admin.dashboard') }}" class="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/20 text-xs font-display text-gray-300 hover:text-white hover:border-cyan-400 transition-colors">
-                <i class="fa-solid fa-user-shield text-cyan-400 text-[10px]"></i> Admin
-            </a>
             <button @click="toggleSound()" class="flex items-center gap-2 text-xs font-display tracking-wider border border-white/20 px-3 py-1.5 rounded-full hover:border-cyan-400 transition-colors duration-300 group" id="soundToggle">
                 <span class="w-2 h-2 rounded-full transition-colors" :class="soundEnabled ? 'bg-cyan-400 shadow-[0_0_8px_#00f0ff]' : 'bg-red-500'"></span>
                 <span class="text-gray-300 group-hover:text-white" x-text="soundEnabled ? 'BGM & SOUND: ON' : 'BGM & SOUND: OFF'">BGM &amp; SOUND: ON</span>
