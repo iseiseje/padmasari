@@ -289,10 +289,16 @@
             <button class="nav-tab px-4 py-1.5 rounded-full transition-all duration-300 text-gray-400 hover:text-white border-transparent bg-transparent" data-sheet-target="2">
                 DRAMA
             </button>
+            <a href="{{ route('questionnaire') }}" class="px-4 py-1.5 rounded-full transition-all duration-300 text-indigo-400 hover:text-white hover:bg-indigo-500/20 flex items-center gap-1.5 border border-indigo-500/30">
+                <i class="fa-solid fa-clipboard-question text-indigo-400 text-[11px]"></i> KUESIONER
+            </a>
         </nav>
 
         <!-- Right Quick Actions -->
         <div class="flex items-center gap-3">
+            <a href="{{ route('questionnaire') }}" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-indigo-500/60 bg-indigo-950/60 text-xs font-display text-indigo-300 hover:text-white hover:border-indigo-400 hover:bg-indigo-600/40 transition-all shadow-[0_0_14px_rgba(99,102,241,0.5)]">
+                <i class="fa-solid fa-clipboard-question text-indigo-400 text-[11px]"></i> Kuesioner
+            </a>
             <a href="{{ route('admin.dashboard') }}" class="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/20 text-xs font-display text-gray-300 hover:text-white hover:border-cyan-400 transition-colors">
                 <i class="fa-solid fa-user-shield text-cyan-400 text-[10px]"></i> Admin
             </a>
@@ -511,7 +517,13 @@
                     </button>
                 </div>
             </div>
-        </div>
+    <!-- Floating Kuesioner Quick Badge -->
+    <div class="fixed bottom-6 right-6 z-40">
+        <a href="{{ route('questionnaire') }}" class="group flex items-center gap-3 px-4 py-2.5 rounded-full bg-black/85 backdrop-blur-xl border border-indigo-500/60 text-white shadow-[0_0_20px_rgba(99,102,241,0.5)] hover:border-indigo-400 hover:shadow-[0_0_30px_rgba(99,102,241,0.8)] hover:scale-105 transition-all duration-300">
+            <span class="w-2.5 h-2.5 rounded-full bg-indigo-400 animate-pulse shadow-[0_0_8px_#6366f1]"></span>
+            <span class="font-display text-xs font-bold tracking-widest text-indigo-200 group-hover:text-white uppercase">Isi Kuesioner</span>
+            <i class="fa-solid fa-arrow-right text-indigo-400 group-hover:translate-x-1 transition-transform text-xs"></i>
+        </a>
     </div>
 
 </div>
