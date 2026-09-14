@@ -87,6 +87,9 @@
                     <a href="{{ route('documents.drama') }}" class="px-4 py-2 text-xs font-bold rounded-full transition-all duration-200 flex items-center gap-2 {{ request()->routeIs('documents.drama') ? 'bg-white text-slate-950 shadow-xs' : 'text-slate-600 hover:text-slate-950 hover:bg-white/60' }}">
                         <i class="fa-solid fa-masks-theater text-[11px] text-cyan-600" aria-hidden="true"></i> Drama
                     </a>
+                    <a href="{{ route('questionnaire') }}" class="px-4 py-2 text-xs font-bold rounded-full transition-all duration-200 flex items-center gap-2 {{ request()->routeIs('questionnaire') ? 'bg-white text-slate-950 shadow-xs' : 'text-slate-600 hover:text-slate-950 hover:bg-white/60' }}">
+                        <i class="fa-solid fa-clipboard-question text-[11px] text-indigo-600" aria-hidden="true"></i> Kuesioner
+                    </a>
                 </nav>
 
                 <!-- Actions -->
@@ -107,6 +110,7 @@
                 <a href="{{ route('documents.novel') }}" class="block px-4 py-2.5 text-sm font-bold rounded-xl {{ request()->routeIs('documents.novel') ? 'bg-slate-950 text-white' : 'text-slate-700 hover:bg-slate-100' }}">Dokumen Novel</a>
                 <a href="{{ route('documents.naskah') }}" class="block px-4 py-2.5 text-sm font-bold rounded-xl {{ request()->routeIs('documents.naskah') ? 'bg-slate-950 text-white' : 'text-slate-700 hover:bg-slate-100' }}">Naskah Cerita</a>
                 <a href="{{ route('documents.drama') }}" class="block px-4 py-2.5 text-sm font-bold rounded-xl {{ request()->routeIs('documents.drama') ? 'bg-slate-950 text-white' : 'text-slate-700 hover:bg-slate-100' }}">Pentas Drama</a>
+                <a href="{{ route('questionnaire') }}" class="block px-4 py-2.5 text-sm font-bold rounded-xl {{ request()->routeIs('questionnaire') ? 'bg-slate-950 text-white' : 'text-slate-700 hover:bg-slate-100' }}">Kuesioner</a>
             </div>
         </div>
     </header>
@@ -158,6 +162,7 @@
                         <li><a href="{{ route('documents.novel') }}" class="hover:text-amber-400 transition-colors">Dokumen Novel</a></li>
                         <li><a href="{{ route('documents.naskah') }}" class="hover:text-amber-400 transition-colors">Naskah Cerita</a></li>
                         <li><a href="{{ route('documents.drama') }}" class="hover:text-amber-400 transition-colors">Pentas Drama</a></li>
+                        <li><a href="{{ route('questionnaire') }}" class="hover:text-amber-400 transition-colors">Kuesioner &amp; Evaluasi</a></li>
                     </ul>
                 </div>
                 <div class="md:col-span-3 space-y-4">

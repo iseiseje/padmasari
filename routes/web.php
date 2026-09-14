@@ -8,6 +8,7 @@ use App\Http\Controllers\AdminController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/kuesioner', [HomeController::class, 'questionnaire'])->name('questionnaire');
 
 // Static Document Reader Routes (from resources/dokumen/)
 Route::get('/novel', [DocumentController::class, 'novel'])->name('documents.novel');

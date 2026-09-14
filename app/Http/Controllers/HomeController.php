@@ -25,4 +25,9 @@ class HomeController extends Controller
             'dramaDoc'
         ));
     }
+
+    public function questionnaire()
+    {
+        return view('questionnaire');
+    }
 }
